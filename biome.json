@@ -11,7 +11,14 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "tab",
+		"ignore": [
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/build/**",
+			"**/out/**",
+			"**/.next/**"
+		]
 	},
 	"organizeImports": {
 		"enabled": true
@@ -20,7 +27,14 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true
-		}
+		},
+		"ignore": [
+			"**/node_modules/**",
+			"**/dist/**",
+			"**/build/**",
+			"**/out/**",
+			"**/.next/**"
+		]
 	},
 	"javascript": {
 		"formatter": {
