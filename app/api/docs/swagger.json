@@ -1,0 +1,244 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Movie App API",
+		"description": "A simple movie app backend with authentication, movie management, and rate limiting.",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000",
+			"description": "Local Server"
+		}
+	],
+	"paths": {
+		"/auth/register": {
+			"post": {
+				"summary": "Register a new user",
+				"description": "Registers a user with an email, password, first name, and last name.",
+				"tags": ["Auth"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": { "type": "string", "example": "student@test.com" },
+									"password": { "type": "string", "example": "123456" },
+									"firstName": { "type": "string", "example": "Student" },
+									"lastName": { "type": "string", "example": "User" }
+								},
+								"required": ["email", "password", "firstName", "lastName"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User registered successfully"
+					},
+					"400": {
+						"description": "Validation errors",
+						"content": {
+							"application/json": {
+								"schema": {
+									"oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"error": {
+													"type": "string",
+													"example": "You can only register with your school email"
+												}
+											}
+										},
+										{
+											"type": "object",
+											"properties": {
+												"error": {
+													"type": "string",
+													"example": "Password error"
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					},
+					"406": {
+						"description": "Please provide all required fields"
+					},
+					"409": {
+						"description": "User already exists"
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"summary": "Login user",
+				"description": "Logs in a user and returns a JWT token.",
+				"tags": ["Auth"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "student@allowed_domain"
+									},
+									"password": { "type": "string", "example": "123456" }
+								},
+								"required": ["email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User logged in successfully",
+						"content": {
+							"application/json": {
+								"example": { "token": "your_jwt_token" }
+							}
+						}
+					},
+					"401": {
+						"error": "Invalid credentials"
+					}
+				}
+			}
+		},
+		"/movies": {
+			"get": {
+				"summary": "Get all movies",
+				"description": "Returns a list of all movies created by the authenticated user.",
+				"tags": ["Movies"],
+				"security": [{ "bearerAuth": [] }],
+				"responses": {
+					"200": {
+						"description": "List of movies",
+						"content": {
+							"application/json": {
+								"example": [
+									{
+										"id": "uuid",
+										"title": "Inception",
+										"director": "Christopher Nolan",
+										"year": 2010,
+										"genre": "Sci-Fi",
+										"duration": 148,
+										"photoUrl": "https://example.com/inception.jpg",
+										"description": "A mind-bending thriller about dream manipulation.",
+										"actors": [
+											"Leonardo DiCaprio",
+											"Joseph Gordon-Levitt",
+											"Elliot Page"
+										]
+									}
+								]
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Create a new movie",
+				"description": "Creates a new movie for the authenticated user. The `description` is optional, and `actors` can be an empty array.",
+				"tags": ["Movies"],
+				"security": [{ "bearerAuth": [] }],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"title": { "type": "string", "example": "Inception" },
+									"director": {
+										"type": "string",
+										"example": "Christopher Nolan"
+									},
+									"year": { "type": "integer", "example": 2010 },
+									"genre": { "type": "string", "example": "Sci-Fi" },
+									"duration": { "type": "integer", "example": 148 },
+									"photoUrl": {
+										"type": "string",
+										"example": "https://example.com/inception.jpg"
+									},
+									"description": {
+										"type": "string",
+										"example": "A mind-bending thriller about dream manipulation.",
+										"nullable": true
+									},
+									"actors": {
+										"type": "array",
+										"items": { "type": "string" },
+										"example": [
+											"Leonardo DiCaprio",
+											"Joseph Gordon-Levitt",
+											"Elliot Page"
+										]
+									}
+								},
+								"required": [
+									"title",
+									"director",
+									"year",
+									"genre",
+									"duration",
+									"photoUrl"
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Movie created successfully"
+					},
+					"400": {
+						"description": "Invalid input"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete a movie",
+				"description": "Deletes a movie by its ID.",
+				"tags": ["Movies"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"description": "ID of the movie to delete",
+						"required": true,
+						"schema": { "type": "string" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Movie deleted successfully"
+					},
+					"400": {
+						"description": "Invalid input"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

@@ -1,42 +1,95 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tailwindcss";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-persian: "IRANSansXFaNum", sans-serif;
+
+  /* Neutral */
+  --color-neutral-950: #0e121b;
+  --color-neutral-900: #191b25;
+  --color-neutral-800: #232530;
+  --color-neutral-700: #2b303b;
+  --color-neutral-600: #525866;
+  --color-neutral-500: #717784;
+  --color-neutral-400: #99a0ae;
+  --color-neutral-300: #cacfd8;
+  --color-neutral-200: #e0e4ea;
+  --color-neutral-100: #f3f5f8;
+  --color-neutral-50: #f5f7fa;
+  --color-neutral-0: #ffffff;
+
+  /* Blue */
+  --color-blue-700: #2547d0;
+  --color-blue-500: #335cff;
+  --color-blue-50: #ebf1ff;
+
+  /* Green */
+  --color-green-500: #21c16b;
+  --color-green-100: #d1fbe9;
+
+  /* Red */
+  --color-red-500: #fb3748;
+  --color-red-400: #f55363;
+  --color-red-300: #fa7a88;
+  --color-red-200: #fcc1c6;
+  --color-red-100: #ffd5d8;
+
+  --text-preset1: 24px;
+  --text-preset1--line-height: 120%;
+  --tracking-preset1: -0.5px;
+
+  --text-preset2: 20px;
+  --text-preset3: 16px;
+  --tracking-preset3: -0.3px;
+  --text-preset4: 14px;
+  --tracking-preset4: -0.2px;
+  --text-preset5: 12px;
+
+  --animate-fadeInOutRTL: fadeInOutRTL 3s ease-in-out forwards;
+  --animate-fadeInOutLTR: fadeInOutLTR 3s ease-in-out forwards;
+
+  @keyframes fadeInOutLTR {
+    0% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+  }
+
+  @keyframes fadeInOutRTL {
+    0% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base {
+  .lang-fa {
+    @apply font-persian;
   }
 }
