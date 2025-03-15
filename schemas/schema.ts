@@ -40,7 +40,7 @@ export const movieSchema = z.object({
 
 export type Movie = z.infer<typeof movieSchema>;
 
-const newMovie = movieSchema.pick({
+export const newMovie = movieSchema.pick({
   title: true,
   director: true,
   year: true,

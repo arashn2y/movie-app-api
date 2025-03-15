@@ -5,30 +5,31 @@ import { ThemeProvider } from "@/components/context/theme-context";
 import Header from "@/components/Header";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"]
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"]
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Movie API",
-  description: "A simple, fast, and secure API for managing movies, users, and authentication."
+	title: "Movie API",
+	description:
+		"A simple, fast, and secure API for managing movies, users, and authentication.",
 };
 
 export default function RootLayout({
-  children
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={`${geistSans.variable} ${geistMono.variable}`}>
+				<ThemeProvider>{children}</ThemeProvider>
+			</body>
+		</html>
+	);
 }

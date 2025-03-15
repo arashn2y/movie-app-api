@@ -5,11 +5,6 @@ import { db } from "@/db/drizzle";
 import type { UpdateUser } from "@/schemas/schema";
 import { hashPassword, passwordController } from "@/utils/passwordManager";
 
-type UserPayload = {
-	id: string;
-	email: string;
-};
-
 export async function POST(
 	request: NextRequest,
 	{ params }: { params: Promise<{ id: string }> },
